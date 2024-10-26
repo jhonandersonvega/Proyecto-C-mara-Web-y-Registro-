@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="es" xml:lang="es">
+  <head>
+    <title>Formulario con foto</title>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="title" content="Proyecto Web" />
+    <meta
+      name="description"
+      content="Captura de foto por camara y registro de datos en base de datos"
+    />
+    <meta name="author" content="Proyecto Web" />
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../assets/css/sweetalert.css" />
+    <link rel="stylesheet" href="../assets/css/custom.css" />
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+  </head>
+  <body>
+    <style>
+      .signature-container {
+        border: 1px solid #000;
+        margin-top: 20px;
+        position: relative;
+        width: 100%;
+        height: 200px;
+      }
+      .signature-canvas {
+        width: 100%;
+        height: 100%;
+        border: 1px solid #ccc;
+        background: #fff;
+        position: absolute;
+        top: 0;
+        left: 0;
+        cursor: crosshair;
+      }
+      .signature-instructions {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #aaa;
+        pointer-events: none;
+        z-index: 10;
+      }
+      .subtitle {
+        font-size: 1.25rem;
+        font-weight: bold;
+        margin-top: 20px;
+        margin-bottom: 10px;
+      }
+    </style>
+    <div class="container">
+      <div class="row-fluid">
+        <h1 class="text-center mt-3">Formulario de Registro</h1>
+        <form id="frm_foto" method="post">
+          <div class="col-lg-12">
+            <p>
+              Bienvenidos al formulario de datos personales, por favor ingresar
+              sus datos correctamente estos serán guardados en el sistema, para
+              su posterior consulta.
+            </p>
+            <a
+              class="btn btn-info btn-sm float-right"
+              type="button"
+              href="lista.html"
+              >Listado</a
+            ><br /><br />
+            <div class="row">
+              <div class="col-lg-6">
+                <div class="form-group row">
+                  <label for="nombre" class="col-sm-3 col-form-label"
+                    >Nombres:</label
+                  >
+                  <div class="col-sm-9">
+                    <input
+                      type="text"
+                      class="form-control form-control-sm"
+                      id="nombre"
+                      name="nombre"
+                    />
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="apellido" class="col-sm-3 col-form-label"
+                    >Apellidos:</label
+                  >
+                  <div class="col-sm-9">
+                    <input
+                      type="text"
+                      class="form-control form-control-sm"
+                      id="apellido"
+                      name="apellido"
+                    />
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="fnac" class="col-sm-3 col-form-label"
+                    >F. Nac.:</label
+                  >
+                  <div class="col-sm-9">
+                    <input
+                      type="date"
+                      class="form-control form-control-sm"
+                      id="fnac"
+                      name="fnac"
+                    />
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="email" class="col-sm-3 col-form-label"
+                    >Email:</label
+                  >
+                  <div class="col-sm-9">
+                    <input
+                      type="email"
+                      class="form-control form-control-sm"
+                      id="email"
+                      name="email"
+                    />
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="dni" class="col-sm-3 col-form-label"
+                    >D.N.I:</label
+                  >
+                  <div class="col-sm-9">
+                    <input
+                      type="text"
+                      class="form-control form-control-sm numeroDni"
+                      id="dni"
+                      name="dni"
+                    />
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label for="sexo" class="col-sm-3 col-form-label"
+                    >Sexo:</label
+                  >
+                  <div class="col-sm-9">
+                    <select
+                      class="form-control form-control-sm"
+                      id="sexo"
+                      name="sexo"
+                    >
+                      <option value="1">Femenino</option>
+                      <option value="2">Masculino</option>
+                    </select>
+                  </div>
+                </div>
+
+                <!-- Cuadro de Firma -->
+                <div class="form-group row">
+                  <label class="col-sm-3 col-form-label subtitle">Firma:</label>
+                  <div class="col-sm-9">
+                    <div class="signature-container">
+                      <canvas
+                        id="signatureCanvas"
+                        class="signature-canvas"
+                      ></canvas>
+                    </div>
+                    <button
+                      type="button"
+                      class="btn btn-danger btn-sm mt-2"
+                      id="clearSignature"
+                    >
+                      Limpiar Firma
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-6">
+                <fieldset class="form-group">
+                  <div class="row">
+                    <div class="form-check radio_check">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="radio_select"
+                        id="radiosfoto"
+                        value="0"
+                        checked
+                      />
+                      <label class="form-check-label" for="radiosfoto"
+                        >Seleccionar Foto</label
+                      >
+                    </div>
+                    <div class="form-check radio_check">
+                      <input
+                        class="form-check-input"
+                        type="radio"
+                        name="radio_select"
+                        id="radiotfoto"
+                        value="1"
+                      />
+                      <label class="form-check-label" for="radiotfoto"
+                        >Tomar Foto</label
+                      >
+                    </div>
+                  </div>
+                </fieldset>
+                <div class="container_radio">
+                  <input
+                    type="file"
+                    class="form-control-file video_container"
+                    name="archivo"
+                    id="subirfoto"
+                    accept="image/*"
+                  />
+                  <img id="blah" src="#" alt="Imagen" class="video_container" />
+                  <video
+                    id="video"
+                    autoplay="autoplay"
+                    class="video_container none"
+                    hidden
+                  ></video>
+                </div>
+              </div>
+              <button
+                class="btn btn-primary btn-sm"
+                type="submit"
+                id="btn_save"
+              >
+                Guardar
+              </button>
+            </div>
+            <canvas id="canvas" class="none"></canvas>
+          </div>
+          <!-- BASE64 -->
+          <input type="hidden" id="base64image" name="base64image" />
+        </form>
+      </div>
+    </div>
+
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/js/bootstrap.min.js"></script>
+    <script src="../assets/js/sweetalert.js"></script>
+    <script src="../assets/app/camara.js"></script>
+    <script src="../assets/app/inserta.js"></script>
+    <script>
+      subirfoto.onchange = (evt) => {
+        const [file] = subirfoto.files;
+        if (file) {
+          // blah.src = URL.createObjectURL(file);
+          const reader = new FileReader();
+          reader.onloadend = function () {
+            const base64String = reader.result;
+            // Asignar el base64 a un input oculto o enviarlo con el formulario
+            document.getElementById("base64image").value = base64String;
+            blah.src = reader.result; // Mostrar la imagen
+          };
+          reader.readAsDataURL(file); // Leer el archivo como base64
+        }
+      };
+
+      document
+        .querySelectorAll('input[name="radio_select"]')
+        .forEach((radio) => {
+          radio.addEventListener("change", function (evt) {
+            const radioValue = evt.target.value;
+            if (radioValue == 0) {
+              // Mostrar la imagen y ocultar el video
+              video.hidden = true;
+              blah.hidden = false;
+            }
+            if (radioValue == 1) {
+              // Mostrar video para tomar la foto y ocultar la imagen
+              blah.hidden = true;
+              video.hidden = false;
+            }
+          });
+        });
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const canvas = document.getElementById("signatureCanvas");
+        const ctx = canvas.getContext("2d");
+        let drawing = false;
+
+        // Ajustar el tamaño del canvas
+        canvas.width = canvas.parentElement.clientWidth;
+        canvas.height = canvas.parentElement.clientHeight;
+
+        // Dibujo en el canvas
+        canvas.addEventListener("mousedown", (e) => {
+          drawing = true;
+          ctx.beginPath();
+          ctx.moveTo(e.offsetX, e.offsetY);
+        });
+
+        canvas.addEventListener("mousemove", (e) => {
+          if (drawing) {
+            ctx.lineTo(e.offsetX, e.offsetY);
+            ctx.stroke();
+          }
+        });
+
+        canvas.addEventListener("mouseup", () => {
+          drawing = false;
+          ctx.beginPath();
+        });
+
+        canvas.addEventListener("mouseleave", () => {
+          drawing = false;
+          ctx.beginPath();
+        });
+
+        // Botón para limpiar la firma
+        const clearButton = document.getElementById("clearSignature");
+        clearButton.addEventListener("click", function () {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+        });
+      });
+    </script>
+  </body>
+</html>
